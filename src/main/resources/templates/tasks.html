@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div class="px-4 py-5 my-5 text-center">
+            <div>
+                <h1 class="display-5 fw-bold mb-4">Mis tareas</h1>
+                <a href="tasks/new" class="btn btn-secondary mb-3">Agregar Nueva Tarea</a>
+            </div>
+
+            <div class="d-flex gap-4 justify-content-center">
+                <div th:each="task : ${tasks}" class="card" style="width: 18rem;">
+                    <div th:switch="${task.done}">
+                        <img th:case="false" src="https://cdn-icons-png.flaticon.com/512/3756/3756732.png" class="card-img-top" alt="..." style="widhh:60px">
+                        <img th:case="true" src="https://cdn-icons-png.flaticon.com/512/1632/1632670.png" class="card-img-top" alt="..." style="widhh:60px">
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title" th:text = ${task.description}></h5>
+                        <p class="card-text" th:text = ${task.dueDate}>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="d-flex flex-column gap-3">
+                            <div th:if="${!task.done}">
+                                <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="patch" >
+                                    <button type="submit" class="btn btn-primary">Finalizar Tarea</button>
+                                </form>
+                            </div>
+                            <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="delete" >
+                                <button type="submit" class="btn btn-danger">Eliminar Tarea</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
